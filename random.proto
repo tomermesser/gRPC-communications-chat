@@ -1,0 +1,40 @@
+syntax = "proto3";
+package randomPackage;
+
+service Random {
+    rpc PingPong(PingRequest) returns (PongResponse) {}; //UNARY
+    rpc RandomNumber(NumberRequest) returns (stream NumberResponse) {}; //SERVER STREAM [Server Sending Stream Data to client] 
+    rpc TodoList(stream TodoRequest) returns (TodoResponse) {}; //CLIENT STREAM [ServClienter Sending Stream Data to server]
+    rpc Chat(stream ChatRequest) returns (stream ChatResponse) {}; // BI-directional STREAM
+    //TODO For MG ## rpc VerticesData(stream FrameRequest) returns (stream VerticesData) {};
+}
+//Unary example
+message PingRequest {
+    string message = 1;
+}
+message PongResponse {
+    string message = 1; 
+}
+//Server example
+message NumberRequest {
+    int32 maxVal = 1;
+}
+message NumberResponse {
+    int32 num = 1;
+}
+//Client example
+message TodoRequest {
+    string todo = 1;
+    string status = 2;
+}
+message TodoResponse {
+    repeated TodoRequest todos = 1;
+}
+//BI-directional example
+message ChatRequest {
+    string message = 1;
+}
+message ChatResponse {
+    string username = 1;
+    string message = 2;
+}
